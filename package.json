@@ -2,22 +2,30 @@
   "name": "electron-nextjs-project",
   "version": "0.1.0",
   "private": true,
+  "main": "main/main.js",
+  "author": "RBFraphael",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+    "build": "next build && electron-builder",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^35.0.2",
+    "electron-builder": "^25.1.8",
+    "electron-serve": "^2.1.1",
+    "mqtt": "^5.10.4",
+    "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.3"
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.2.3",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4"
   }
 }
