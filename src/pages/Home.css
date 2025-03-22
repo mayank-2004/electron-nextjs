@@ -1,0 +1,41 @@
+.publisher{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.publisher-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 0;
+}
+
+.publishers{
+    display: flex;
+    flex-direction: column;
+    background: rgb(222, 221, 221);
+    width: 70%;
+    border-radius: 10px;
+    margin: auto;
+    padding-bottom: 15px;
+}
+
+.publishers button{
+    width: 100px;
+    margin: 10px auto;
+}
+
+.publisher-form input{
+    padding: 5px 6px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.publisher-area{
+    margin: auto;
+    outline: none;
+}

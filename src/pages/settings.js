@@ -167,7 +167,7 @@ const Settings = () => {
                         <div className='publisher-form'>
                             <label>receive text</label>
                             <div className='publisher-area'>
-                                <textarea readOnly value={messages.join("\n")} name="message" cols="40" rows="15"></textarea>
+                                <textarea readOnly value={messages.join("\n")} name="message" cols="25" rows="15"></textarea>
                             </div>
                         </div>
                     </div>

@@ -1,38 +1,33 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaAlignJustify } from "react-icons/fa6";
 import { FaHouseChimney } from "react-icons/fa6";
 import { IoSettings } from "react-icons/io5";
 
 export default function Home() {
-  const [electronAvailable, setElectronAvailable] = useState(false);
 
-  useEffect(() => {
-    if(typeof window !== "undefined" && window.Electron){
-      setElectronAvailable(true);
-    }
-  },[])
-  // const [electron, setElectron] = useState(null);
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const getElectron = window.require?.("electron");
-  //     setElectron(getElectron);
-  //   }
-  // }, [])
+  const handleSettings = () => {
 
-  const handleHome = () => {
-    if(window.Electron && window.Electron.ipcRenderer){
-      window.Electron.ipcRenderer.send("open-settings");
-    } else {
-      console.error("ipcRenderer not available");
+    if(window.electronAPI){
+      window.electronAPI.openSettingWindow();
+      router.push("/settings");
     }
   };
+
+  const handleHome = () => {
+    if(window.electronAPI){
+      window.electronAPI.openHomeWindow();
+      router.push("/Home");
+    }
+  }
 
   return (
     <div>
       <h1>Electron + Next.js</h1>
-      <button onClick={handleHome}>Open Second Window</button>
+      <button onClick={handleHome}><FaHouseChimney size={24} />Home Page</button>
+      <button onClick={handleSettings}><IoSettings size={24} />Setting Page</button>
     </div>
     // <section>
     //   <div className="container">

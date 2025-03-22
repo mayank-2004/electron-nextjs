@@ -8,28 +8,29 @@ const appServe = app.isPackaged ? serve({
 
 let win;
 let secondaryWindow;
+let homeWindow;
 
 // create main window
-const createWindow = async () => {
+const createWindow = () => {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 900,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
       contextIsolation: true,
+      webSecurity: true,
+      enableRemoteModule: false,
     }
   });
 
   if (app.isPackaged) {
-    await appServe(win);
-    win.loadURL("app://-");
+     appServe(win).then(() => {
+       win.loadURL("app://-");
+     });
   } else {
     win.loadURL("http://localhost:3000");
     win.webContents.openDevTools();
-    win.webContents.on("did-fail-load", (e, code, desc) => {
-      win.webContents.reloadIgnoringCache();
-    });
   }
 }
 
@@ -38,29 +39,72 @@ let createSecondaryWindow = () => {
   if (secondaryWindow) return;  // will prevent multiple windows
 
   secondaryWindow = new BrowserWindow({
-    width: 600,
-    height: 400,
+    width: 700,
+    height: 600,
+    title: "settings",
     parent: win,
-    modal: false,
+    model: true,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js")
+      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration:false,
+      webSecurity: true,
+      contextIsolation: true,
+      enableRemoteModule: false,
     },
   });
-
-  secondaryWindow.loadURL("http://localhost:3000/open-settings");
 
   secondaryWindow.on("closed", () => {
     secondaryWindow = null;
   });
-}
 
-ipcMain.on("open-settings", () => {
-  console.log("opening secondary window");
-  createSecondaryWindow();
-});
+  if (app.isPackaged) {
+    appServe(secondaryWindow).then(() => {
+      secondaryWindow.loadURL("app://-/settings");
+    });
+  } else {
+    secondaryWindow.loadURL("http://localhost:3000/settings");
+    };
+  }
+
+  const createHomeWindow = () => {
+    if (homeWindow) return;  // will prevent multiple windows
+  
+    homeWindow = new BrowserWindow({
+      width: 700,
+      height: 600,
+      title: "Home",
+      parent: win,
+      model: true,
+      webPreferences: {
+        preload: path.join(__dirname, "preload.js"),
+        nodeIntegration:false,
+        webSecurity: true,
+        contextIsolation: true,
+        enableRemoteModule: false,
+      },
+    });
+  
+    homeWindow.on("closed", () => {
+      homeWindow = null;
+    });
+    if (app.isPackaged) {
+      appServe(homeWindow).then(() => {
+        homeWindow.loadURL("app://-/Home");
+      });
+    } else {
+      homeWindow.loadURL("http://localhost:3000/Home");
+      };
+    }
 
 app.on("ready", () => {
   createWindow();
+  ipcMain.on("open-settings", () => {
+    createSecondaryWindow();
+  });
+
+  ipcMain.on("open-home", () => {
+    createHomeWindow();
+  });
 });
 
 app.on("window-all-closed", () => {
