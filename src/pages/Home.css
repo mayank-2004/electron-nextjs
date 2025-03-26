@@ -1,41 +1,49 @@
-.publisher{
+.home-container{
+    background-color: grey;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-.publisher-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
-    padding: 15px 0;
-}
-
-.publishers{
-    display: flex;
-    flex-direction: column;
-    background: rgb(222, 221, 221);
-    width: 70%;
-    border-radius: 10px;
-    margin: auto;
-    padding-bottom: 15px;
-}
-
-.publishers button{
-    width: 100px;
+    max-width: 400px;
     margin: 10px auto;
+    border-radius: 15px;
+    height: 180px;
 }
 
-.publisher-form input{
-    padding: 5px 6px;
-    border: none;
+.home-form input{
+    margin-top: 20px;
+    padding: 8px 17px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    outline: none;
     font-size: 15px;
 }
 
-.publisher-area{
-    margin: auto;
+.home-form button{
+    padding: 8px 17px;
+    border: 1px solid #ccc;
     outline: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.home-area textarea {
+    width: 60%;
+    margin-left: 20vw;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+}
+
+.home-area h3{
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 700;
+    font-size: 20px;
 }
