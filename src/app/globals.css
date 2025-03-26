@@ -25,8 +25,54 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.icon-container {
+.main-container {
   display: flex;
-  width: 70px;
+  height: 100vh;
+}
+
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.btn-sidebar {
+  position: fixed;
+  top: 10px;
+  left: 20px;
+  z-index: 100;
+  background: #2c3e50;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100vh; /* Full height */
+  background: #2c3e50;
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.btn-homebar, .btn-settingbar {
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 24px;
+}
+
+.content-container {
+  flex: 1;
+  margin-left: 80px; /* Prevent content shift when sidebar opens */
+  padding: 20px;
 }

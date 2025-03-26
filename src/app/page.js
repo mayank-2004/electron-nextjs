@@ -7,11 +7,23 @@ import Settings from "../pages/settings"
 import { useState } from "react";
 
 export default function Page() {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState(null);
+  const [sideBar, setSideBar] = useState(false);
 
   const handleNavigation = (page) => {
     setActivePage(page);
+    // setSideBar(false);
   };
+
+  const handleSideBar = () => {
+    setSideBar(!sideBar);
+  }
+
+  // sidebar animation variants
+  const sidebarVariants = {
+    hidden: { x: "-100%", opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5, ease: "easeInOut" } }
+  }
 
   // Animation variants for sliding effect
   const pageVariants = {
@@ -20,35 +32,32 @@ export default function Page() {
     exit: { x: "-100%", opacity: 0, transition: { duration: 0.5, ease: "easeInOut" } },
   };
 
-  // const router = useRouter();
-
-  // const handleSettings = () => {
-  //   // if (window.electronAPI) {
-  //     // window.electronAPI.openSettingWindow();
-  //     router.push("/settings");
-  //   // }
-  // };
-
-  // const handleHome = () => {
-  //   // if (window.electronAPI) {
-  //     // window.electronAPI.openHomeWindow();
-  //     router.push("/home");
-  //   // }
-  // }
-
   return (
     <div className="main-container">
-      {/* Fixed Sidebar Icons */}
-      <div className="icon-container">
-        {<button className="btn btn-sidebar"><FaAlignJustify size={24} /></button> ? <>
-          <button className="btn btn-sidebar"><FaAlignJustify size={24} /></button>
-          <button className="btn btn-homebar" onClick={() => handleNavigation("home")}>
-            <FaHouseChimney size={24} />
-          </button>
-          <button className="btn btn-settingbar" onClick={() => handleNavigation("settings")}>
-            <IoSettings size={24} />
-          </button></> : null}
-      </div>
+      {/* sidebar toggle button */}
+      <button className="btn btn-sidebar" onClick={handleSideBar}>
+        <FaAlignJustify size={24} />
+      </button>
+
+      {/* animated sidebar */}
+      <AnimatePresence>
+        {sideBar && (
+          <motion.div
+            className="sidebar"
+            variants={sidebarVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            <button className="btn btn-homebar" onClick={() => handleNavigation("home")}>
+              <FaHouseChimney size={24} />
+            </button>
+            <button className="btn btn-settingbar" onClick={() => handleNavigation("settings")}>
+              <IoSettings size={24} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Animated Page Content */}
       <div className="content-container">
@@ -68,37 +77,3 @@ export default function Page() {
     </div>
   );
 }
-
-// return (
-//   <div>
-//     <h1>Electron + Next.js</h1>
-//     <div className="container">
-//       <button className="btn btn-sidebar">
-//         <FaAlignJustify size={24} />
-//       </button>
-//       <button className="btn btn-homebar" onClick={() => setActivePage("home")}>
-//         <FaHouseChimney size={24} />
-//       </button>
-//       <button className="btn btn-settingbar" onClick={() => setActivePage("settings")}>
-//         <IoSettings size={24} />
-//       </button>
-//     </div>
-
-//     {/* Dynamically Render Content */}
-//     <div className="content">
-//       {activePage === "home" && <Home />}
-//       {activePage === "settings" && <Settings />}
-//     </div>
-//   </div>
-// );
-
-// return (
-//   <div>
-//     <h1>Electron + Next.js</h1>
-//     <div className="container">
-//       <button className="btn btn-sidebar"><FaAlignJustify size={24} /></button>
-//       <button className="btn btn-homebar" onClick={handleHome}><FaHouseChimney size={24} /></button>
-//       <button className="btn btn-settingbar" onClick={handleSettings}><IoSettings size={24} /></button>
-//     </div>
-//   </div>
-// );
