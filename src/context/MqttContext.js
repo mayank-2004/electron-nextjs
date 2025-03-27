@@ -60,7 +60,7 @@ export const MqttProvider = ({ children }) => {
         newClient.on("message", (topic, message) => {
             console.log("hello is there any error");
             console.log(`Received on ${topic}: ${message.toString()}`);
-            setMessages((prev) => [...prev, `Received from ${topic}: ${message.toString()}`]);
+            setMessages((prev) => [...prev, `${topic}: ${message.toString()}`]);
         });
 
         newClient.on("error", (err) => {
@@ -80,7 +80,7 @@ export const MqttProvider = ({ children }) => {
                     console.error("Error in Publishing:", err);
                 } else {
                     console.log(`Message sent to ${sendTopic}`);
-                    setMessages((prev) => [...prev, `Sent to ${sendTopic}: ${message}`]);
+                    setMessages((prev) => [...prev, `${sendTopic}: ${message}`]);
                 }
             })
         } else {

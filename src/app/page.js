@@ -12,7 +12,6 @@ export default function Page() {
 
   const handleNavigation = (page) => {
     setActivePage(page);
-    // setSideBar(false);
   };
 
   const handleSideBar = () => {
