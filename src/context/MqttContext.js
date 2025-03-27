@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, createContext, useState } from "react";
+import React, { useContext, createContext, useState } from "react";
 import mqtt from "mqtt";
 
 // Create Context
