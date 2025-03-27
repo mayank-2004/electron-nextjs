@@ -28,7 +28,7 @@ const Home = () => {
         </div>
 
         <div className='home-area'>
-            <h3 className='msg'>Have a communication here</h3>
+            <h3 className='msg'>Have a communication Here</h3>
             <textarea readOnly value={messages.join("\n")} name="message" cols="25" rows="8"></textarea>
         </div>
 
