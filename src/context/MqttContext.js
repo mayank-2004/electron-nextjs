@@ -60,7 +60,7 @@ export const MqttProvider = ({ children }) => {
         newClient.on("message", (topic, message) => {
             console.log("hello is there any error");
             console.log(`Received on ${topic}: ${message.toString()}`);
-            setMessages((prev) => [...prev, `${topic}: ${message.toString()}`]);
+            setMessages((prev) => [...prev, {text: `${message}`, type: "sent"}]);  // phone se laptop publisher ko msg ara h.
         });
 
         newClient.on("error", (err) => {
@@ -80,7 +80,7 @@ export const MqttProvider = ({ children }) => {
                     console.error("Error in Publishing:", err);
                 } else {
                     console.log(`Message sent to ${sendTopic}`);
-                    setMessages((prev) => [...prev, `${sendTopic}: ${message}`]);
+                    setMessages((prev) => [...prev, {text: `${message}`, type: "received"}]);  // laptop se phone publisher ko msg ara h.
                 }
             })
         } else {
@@ -90,7 +90,7 @@ export const MqttProvider = ({ children }) => {
 
     return (
         <MqttContext.Provider
-            value={{ client, messages, connectMqtt, onPublish }}
+            value={{ client, messages, connectMqtt, onPublish, sendTopic }}
         >
             {children}
         </MqttContext.Provider>
