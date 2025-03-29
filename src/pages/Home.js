@@ -21,8 +21,6 @@ const Home = () => {
         <div className='chat-container'>
             <div className='home-area'>
                 <h1 className='msg'>{sendTopic}</h1>
-                {/* <div readOnly value={messages.join("\n")} className='text-area' name="message" cols="25" rows="8" placeholder='your chat'></div> */}
-                {/* <div className='text-area' placeholder='your chat'></div> */}
                 <div className="chat-box">
                     {messages.reverse().map((msg, index) => (
                         <div key={index} className={`chat-message ${msg.type === 'sent' ? 'sent' : 'received'}`}>
