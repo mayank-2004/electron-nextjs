@@ -12,8 +12,8 @@ const Settings = () => {
         port: '1883',
         username: 'Swajahome',
         password: '12345678',
-        receive: 'vishuboy',
-        send: 'mayankdon11'
+        receive: 'indihood/meet1/out',
+        send: 'indihood/meet1/in'
     })
 
     const InputChange = (e) => {

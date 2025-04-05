@@ -37,7 +37,7 @@ const Home = () => {
                     <h3>Publisher</h3>
                     <input type="text" name="text" placeholder='enter text to send' value={sendMessage}
                         onChange={(e) => setSendMessage(e.target.value)} />
-                    <button onClick={handlePublish} type='button' className='btn'>Send</button>
+                    <button onClick={handlePublish} type='button' className='btn'>send</button>
                 </div>
             </div>
         </div>
