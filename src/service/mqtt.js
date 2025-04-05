@@ -1,13 +1,12 @@
 const { protocol } = require('electron');
 const mqtt = require('mqtt');
 
-const BROKER_URL = `wss://broker.emqx.io:8084/mqtt`; 
-// const TOPIC = 'test/topic';
+const BROKER_URL = `mqtt://192.168.1.200:1883`; 
+const TOPIC = 'test/topic';
 
 const options = {
-    protocol: wss,
-    port: 8083,
-    path: '/mqtt'
+    clientId: `mqttjs_${Date.now()}_${Math.random().toString(16).substr(2, 4)}`,
+    reconnectPeriod: 1000,
 }
 
 const client = mqtt.connect(BROKER_URL, options);
@@ -23,10 +22,12 @@ client.on('connect', () => {
         }
     });
 
-    const message = "Hello from MQTT Client!";
-    client.publish(TOPIC, message, () => {
-        console.log(`Message sent: "${message}"`);
-    });
+    setTimeout(() => {
+        const message = "Hello from MQTT Client!";
+        client.publish(TOPIC, message, () => {
+            console.log(`Message sent: "${message}"`);
+        });
+    }, 500);
 });
 
 client.on('message', (topic, message) => {

@@ -1,103 +1,73 @@
 "use client";
-import React, { useContext, createContext, useState } from "react";
-import mqtt from "mqtt";
+import React, { useContext, createContext, useState, useEffect } from "react";
 
-// Create Context
 const MqttContext = createContext();
 
-// Context Provider Component
 export const MqttProvider = ({ children }) => {
 
-    const [client, setClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [sendTopic, setSendTopic] = useState("");
     const [receiveTopic, setReceiveTopic] = useState("");
 
-    // function to connect to MQTT 
-    const connectMqtt = (mqttConig) => {
-        if (client) {
-            client.end(); // Close existing connection before reconnecting
-            setClient(null);
-        }
-
-        const brokerURL = `wss://${mqttConig.mqttip}:${mqttConig.port}/mqtt`;
-        const options = {
-            username: mqttConig.username || undefined,
-            password: mqttConig.password || undefined,
-        };
-
-        const newClient = mqtt.connect(brokerURL, options);
-        setClient(newClient);
+    const connectMqtt = async (mqttConig) => {
 
         setSendTopic(mqttConig.send);
         setReceiveTopic(mqttConig.receive);
 
-        newClient.on("connect", () => {
-            console.log(`Connected to MQTT Broker: ${brokerURL}`);
-
-            if (mqttConig.receive) {
-                newClient.subscribe(mqttConig.receive, (err) => {
-                    if (!err) {
-                        console.log(`Subscribed to topic: ${mqttConig.receive}`);
-                    } else {
-                        console.error("Subscription error:", err);
-                    }
-                });
-            }
-
-            if (mqttConig.send) {
-                newClient.publish(mqttConig.send, "Hello from MQTT Client!", (err) => {
-                    if (err) {
-                        console.error("error in Publishing:", err);
-                    } else {
-                        console.log(`Message sent to ${mqttConig.send}`);
-                    }
-                });
-            }
-
-        });
-
-        newClient.on("message", (topic, message) => {
-            console.log("hello is there any error");
-            console.log(`Received on ${topic}: ${message.toString()}`);
-            setMessages((prev) => [...prev, {text: `${message}`, type: "sent"}]);  // phone se laptop publisher ko msg ara h.
-        });
-
-        newClient.on("error", (err) => {
-            console.error("MQTT Error:", err);
-        });
-
-        newClient.on("close", () => {
-            console.log("Disconnected from MQTT broker");
-        });
-    }
-
-    // Publish Message
-    const onPublish = (message) => {
-        if (client && sendTopic) {
-            client.publish(sendTopic, message, (err) => {
-                if (err) {
-                    console.error("Error in Publishing:", err);
-                } else {
-                    console.log(`Message sent to ${sendTopic}`);
-                    setMessages((prev) => [...prev, {text: `${message}`, type: "received"}]);  // laptop se phone publisher ko msg ara h.
-                }
-            })
-        } else {
-            console.error("Client not connected or send topic is empty");
+        try {
+            await fetch("http://localhost:5000/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ topic: mqttConig.receive }),
+            });
+            console.log(`Subscribed to topic: ${mqttConig.receive}`);
+        } catch (error) {
+            console.error("Subscription failed:", error);
         }
     }
 
+    const onPublish = async (message) => {
+        if (!sendTopic) {
+            console.error("Send topic is not set");
+            return;
+        }
+
+        try {
+            await fetch("http://localhost:5000/publish", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ topic: sendTopic, message }),
+            });
+            setMessages((prev) => [...prev, { text: message, type: "sent" }]);
+            console.log(`Published message: ${message} to topic: ${sendTopic}`);
+        } catch (error) {
+            console.error("Error publishing message:", error);
+        }
+    };
+
+      // Fetch messages from the server every 2 seconds
+      useEffect(() => {
+        const interval = setInterval(async () => {
+            try {
+                const response = await fetch("http://localhost:5000/messages");
+                const data = await response.json();
+                setMessages(data);
+            } catch (error) {
+                console.error("Error fetching messages:", error);
+            }
+        }, 10000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <MqttContext.Provider
-            value={{ client, messages, connectMqtt, onPublish, sendTopic }}
+            value={{ messages, connectMqtt, onPublish, sendTopic }}
         >
             {children}
         </MqttContext.Provider>
     );
 };
 
-// custom hook to use mqtt context
 export const useMqtt = () => {
     return useContext(MqttContext);
 }

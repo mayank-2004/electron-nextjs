@@ -10,9 +10,9 @@ const Home = () => {
 
     const handlePublish = () => {
         if (sendMessage) {
+            console.log("Sending message:",sendMessage,"to topic:", sendTopic);
             onPublish(sendMessage);
             setSendMessage('');
-
         }
     };
 
@@ -20,13 +20,14 @@ const Home = () => {
         <h1 style={{ fontSize: "18px", color: "white" }}>Home Page</h1>
         <div className='chat-container'>
             <div className='home-area'>
-                <h1 className='msg'>{sendTopic}</h1>
+                <h1 className='msg'>Topic: {sendTopic || "Not Set"}</h1>
                 <div className="chat-box">
                     {messages.reverse().map((msg, index) => (
                         <div key={index} className={`chat-message ${msg.type === 'sent' ? 'sent' : 'received'}`}>
                             {msg.text}
                         </div>
                     ))}
+
                 </div>
             </div>
 

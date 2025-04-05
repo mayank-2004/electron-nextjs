@@ -7,15 +7,19 @@
   "scripts": {
     "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
     "build": "next build && electron-builder",
-    "start": "next start",
+    "start": "next start \"electron .\"",
     "lint": "next lint"
   },
   "dependencies": {
     "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
     "electron": "^35.0.2",
     "electron-builder": "^25.1.8",
     "electron-serve": "^2.1.1",
+    "express": "^5.1.0",
     "framer-motion": "^12.6.0",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
     "mqtt": "^5.10.4",
     "next": "15.2.3",
     "react": "^19.0.0",

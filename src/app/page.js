@@ -7,7 +7,7 @@ import Settings from "../pages/settings"
 import { useState } from "react";
 
 export default function Page() {
-  const [activePage, setActivePage] = useState(null);
+  const [activePage, setActivePage] = useState("");
   const [sideBar, setSideBar] = useState(false);
 
   const handleNavigation = (page) => {
@@ -18,13 +18,11 @@ export default function Page() {
     setSideBar(!sideBar);
   }
 
-  // sidebar animation variants
   const sidebarVariants = {
     hidden: { x: "-100%", opacity: 0 },
     visible: { x: 0, opacity: 1, transition: { duration: 0.5, ease: "easeInOut" } }
   }
 
-  // Animation variants for sliding effect
   const pageVariants = {
     initial: { x: "100%", opacity: 0 },
     animate: { x: 0, opacity: 1, transition: { duration: 0.5, ease: "easeInOut" } },
@@ -33,12 +31,10 @@ export default function Page() {
 
   return (
     <div className="main-container">
-      {/* sidebar toggle button */}
       <button className="btn btn-sidebar" onClick={handleSideBar}>
         <FaAlignJustify size={24} />
       </button>
 
-      {/* animated sidebar */}
       <AnimatePresence>
         {sideBar && (
           <motion.div
@@ -58,7 +54,6 @@ export default function Page() {
         )}
       </AnimatePresence>
 
-      {/* Animated Page Content */}
       <div className="content-container">
         <AnimatePresence mode="wait">
           {activePage === "home" && (

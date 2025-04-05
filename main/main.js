@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, BrowserView } = require("electron");
+const { app, BrowserWindow } = require("electron");
 const serve = require("electron-serve");
 const path = require("path");
 
@@ -7,8 +7,6 @@ const appServe = app.isPackaged ? serve({
 }) : null;
 
 let win;
-// let secondaryWindow;
-// let homeWindow;
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -23,13 +21,13 @@ const createWindow = () => {
     }
   });
 
-  // if (app.isPackaged) {
   if (app.isPackaged && appServe) {
-    appServe(win)
-    win.loadURL("app://-");
+    (async () => {
+      await appServe(win)
+      win.loadURL("app://-");
+    })();
   } else {
-    win.loadURL("http://localhost:3000/");
-    win.webContents.openDevTools();
+    win.loadURL("http://localhost:3000");
   }
 }
 

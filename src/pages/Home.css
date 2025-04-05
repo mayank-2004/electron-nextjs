@@ -75,7 +75,7 @@
 
 /* Sent messages (Right-aligned) */
 .chat-message.sent {
-    align-self: flex-start;
+    align-self: flex-end;
     color: black;
     font-weight: 700;
     background-color: white;
@@ -84,7 +84,7 @@
 
 /* Received messages (Left-aligned) */
 .chat-message.received {
-    align-self: flex-end;
+    align-self: flex-start;
     background-color: #19d138;
     color: black;
     font-weight: 700;

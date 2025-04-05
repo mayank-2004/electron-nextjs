@@ -3,15 +3,17 @@ import React, { useState } from 'react'
 import "./settings.css"
 import { useMqtt } from '@/context/MqttContext';
 
+const API_URL = "http://localhost:5000";
+
 const Settings = () => {
-    const {connectMqtt} = useMqtt();
-    const [user, setUser] = useState({
-        mqttip: 'broker.emqx.io',
-        port: '8084',
-        username: '',
-        password: '',
-        receive: '',
-        send: ''
+    let {connectMqtt} = useMqtt();
+    let [user, setUser] = useState({
+        mqttip: '192.168.1.200',
+        port: '1883',
+        username: 'Swajahome',
+        password: '12345678',
+        receive: 'vishuboy',
+        send: 'mayankdon11'
     })
 
     const InputChange = (e) => {
@@ -20,9 +22,9 @@ const Settings = () => {
         setUser({ ...user, [name]: value })
     }
 
-    // Handle Publish
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("submitting and transfering user details")
         connectMqtt(user);
     }
 
@@ -36,7 +38,7 @@ const Settings = () => {
                             <label htmlFor="">
                                 MQTTIP:
                             </label>
-                            <input onChange={InputChange} value={user.mqttip} type="text" name='mqttip' placeholder='enter your id' required />
+                            <input onChange={InputChange} value={user.mqttip} type="decimal" name='mqttip' placeholder='enter your id' required />
                         </div>
                         <div className='form-group'>
                             <label htmlFor="">
@@ -54,7 +56,7 @@ const Settings = () => {
                             <label htmlFor="">
                                 password:
                             </label>
-                            <input onChange={InputChange} value={user.password} type="text" name='password' placeholder='enter password' />
+                            <input onChange={InputChange} value={user.password} type="password" name='password' placeholder='enter password' />
                         </div>
                         <div className='form-group'>
                             <label htmlFor="">
