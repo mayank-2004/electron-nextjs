@@ -39,7 +39,7 @@ export const MqttProvider = ({ children }) => {
                 body: JSON.stringify({ topic: sendTopic, message }),
             });
             setMessages((prev) => [...prev, { text: message, type: "sent" }]);
-            console.log(`Published message: ${message} to topic: ${sendTopic}`);
+            console.log(`Published message: ${message} from topic: ${sendTopic}`);
         } catch (error) {
             console.error("Error publishing message:", error);
         }

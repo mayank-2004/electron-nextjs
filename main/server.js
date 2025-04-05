@@ -32,7 +32,7 @@ client.on("error", (err) => {
 client.on("message", (topic, message) => {
   const receivedMessage = { topic, text: message.toString(), type: "received" };
   messages.push(receivedMessage);
-  console.log(`Received on ${topic}: ${message.toString()}`);
+  console.log(`Message received from ${topic}: ${message.toString()}`);
 });
 
 // API Route to Publish Message
@@ -48,7 +48,7 @@ app.post("/publish", (req, res) => {
       console.log("publish error");
       return res.status(500).json({ error: "Failed to publish message" });
     }
-    console.log(`Published: ${message} to topic: ${topic}`);
+    console.log(`Published message: ${message} from topic: ${topic}`);
     messages.push({topic, text: message, type: "sent"});
     res.json({ success: true }); 
   });
